@@ -17,9 +17,7 @@ This project is a web-based auction site built using Django. Users can create au
 
 Watch the demo video below:
 
-<div align="center">
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/Bl4wHD_XAiU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+[![Watch the video](https://img.youtube.com/vi/Bl4wHD_XAiU/0.jpg)](https://www.youtube.com/watch?v=Bl4wHD_XAiU)
 
 ### Models
 
