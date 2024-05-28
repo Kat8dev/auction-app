@@ -6,6 +6,21 @@ This project is a web-based auction site built using Django. Users can create au
 
 ## Features
 
+- User authentication and authorization
+- Create, view, and manage auction listings
+- Place bids on listings
+- Comment on listings
+- Add and remove listings from a personal watchlist
+- Category-based listing browsing
+
+## Project Overview
+
+Watch the demo video below:
+
+<div align="center">
+  <iframe width="560" height="315" src="https://www.youtube.com/watch?v=Bl4wHD_XAiU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
 ### Models
 
 The application includes the following models in addition to the User model:
