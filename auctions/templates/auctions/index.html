@@ -1,0 +1,40 @@
+{% extends "auctions/layout.html" %} {% load static %} {% block body %}
+<div class="container p-5 shadow p-3 mb-5 bg-body-tertiary rounded">
+  <h2>Active Listings</h2>
+
+  <ul class="list-group list-group-flush">
+    {% for listing in listings %}
+    <li class="list-group-item">
+      <div class="d-flex align-items-center">
+        <div class="m-5">
+          {% if listing.image_url %}
+          <img
+            class="img-fluid"
+            src="{{listing.image_url}}"
+            alt="{{listing.title}}"
+          />
+          {% else %}
+          <img
+            class="img-fluid"
+            src="{% static 'assets/noimage.png' %}"
+            alt="no-image"
+          />
+          {% endif %}
+        </div>
+
+        <div class="">
+          <h5 class="">{{listing.title}}</h5>
+          <span>Starting bid: <b>${{listing.starting_bid}}</b></span>
+          <p class="">{{listing.desc}}</p>
+          <a
+            href="{% url 'listing-details' listing.id %}"
+            class="btn btn-primary"
+            >See details</a
+          >
+        </div>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

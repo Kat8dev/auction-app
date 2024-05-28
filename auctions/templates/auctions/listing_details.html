@@ -1,0 +1,86 @@
+{% extends "auctions/layout.html" %} {% load static %} {% block body %}
+
+<div class="container">
+  <h2>Listing: {{listing.title}}</h2>
+
+  <div class="mb-2">
+    {% if is_watching %}
+    <span class="badge bg-secondary text-light">Watchlist</span>
+    <span>
+      <form action="{{ watchlist_url }}" method="post" style="display: inline">
+        {% csrf_token %}
+        <input type="hidden" name="listing_id" value="{{ listing.id }}" />
+        <button type="submit" class="btn btn-outline-danger btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove from watchlist">
+          <i class="bi bi-dash-lg"></i>
+        </button>
+      </form>
+    </span>
+  {% else %}
+    <form action="{{ watchlist_url }}" method="post" style="display: inline">
+      {% csrf_token %}
+      <input type="hidden" name="listing_id" value="{{ listing.id }}" />
+      <button type="submit" class="btn btn-primary btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to watchlist">
+        <i class="bi bi-plus"></i>
+      </button>
+    </form>
+  {% endif %}
+</div>
+  
+  
+  {% if listing.image_url %}
+  <img src="{{listing.image_url}}" alt="{{listing.title}}" />
+  {% else %}
+  <p>No image available</p>
+  <img src="{% static 'assets/noimage.png' %}" alt="no-image" />
+  {% endif %}
+
+  <p><strong>Description: </strong> {{listing.desc}}</p>
+
+  <p>
+    {% if highest_bid %} ${{highest_bid.amount}} by {{highest_bid.user}} {% else%} No bids yet {% endif %}
+  </p>
+
+  {% if user == listing.created_by and listing.is_active %}
+  <form action="{% url 'close-listing' listing.id %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Close listing</button>
+  </form>
+  {% elif  user == listing.created_by and not listing.is_active %}
+    <p>This listing is closed</p> 
+    {% if listing.winner %}<span>, winner is: {{listing.winner}}</span>{% endif %}
+  {% else %}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+  <form class="" action="{{ bid_url }}" method="post">
+    {% csrf_token %} {{ bid_form.as_p }}
+    <button class="btn btn-primary" type="submit">Place bid</button>
+  </form>
+  {% endif %}
+
+  <h2>Details</h2>
+  <p>Category: {{listing.category}}</p>
+  <p>Created by: {{listing.created_by}}</p>
+  <p>Created on: {{listing.created_at}}</p>
+  <p>Active: {{listing.is_active}}</p>
+  <p><b>Comments:</b></p>
+  {% if comments %}
+  <ul class="list-group mb-3">
+    {% for comment in comments %}
+    <li class="list-group-item">{{comment.content}} - by {{comment.user}}</li>
+    {% endfor %}
+  </ul>
+  {%else%}
+  <p>No comments yet for this listing</p>
+  {%endif%}
+  <form action="{{comment_url}}" method="post">
+    {% csrf_token %} {{ comment_form.as_p }}
+    <button class="btn btn-primary" type="submit">Add comment</button>
+  </form>
+
+  <div>{%endblock%}</div>
+</div>
